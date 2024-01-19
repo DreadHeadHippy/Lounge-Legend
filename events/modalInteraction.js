@@ -1,10 +1,4 @@
-/**
- * @file Modal Interaction Handler
- * @author Naman Vrati
- * @since 3.2.0
- * @version 3.3.2
- */
-
+// Modal Interaction Handler
 const { Events } = require("discord.js");
 
 module.exports = {

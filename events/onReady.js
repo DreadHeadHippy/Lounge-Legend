@@ -4,10 +4,8 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
 
-  /**
-   * @description Executes when the client is ready (bot initialization).
-   * @param {import('../typings').Client} client Main Application Client.
-   */
+  // Executes when the client is ready (bot initialization).
+
   execute(client) {
     console.log(`Ready! Logged in as ${client.user.tag}`);
 

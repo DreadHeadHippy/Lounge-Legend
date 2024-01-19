@@ -1,9 +1,4 @@
-/**
- * @file Message Based Commands Handler
- * @author Naman Vrati
- * @since 1.0.0
- * @version 3.3.2
- */
+// Message Based Commands Handler
 
 // Declares constants (destructured) to be used in this file.
 

@@ -1,20 +1,11 @@
-/**
- * @file Select Menu Interaction Handler
- * @author Naman Vrati
- * @since 3.0.0
- * @version 3.3.2
- */
-
+// Select Menu Interaction Handler
+ 
 const { Events } = require("discord.js");
 
 module.exports = {
 	name: Events.InteractionCreate,
 
-	/**
-	 * @description Executes when an interaction is created and handle it.
-	 * @author Naman Vrati
-	 * @param {import('discord.js').SelectMenuInteraction & { client: import('../typings').Client }} interaction The interaction which was created
-	 */
+	// Executes when an interaction is created and handles it.
 
 	async execute(interaction) {
 		// Deconstructed client from interaction object.

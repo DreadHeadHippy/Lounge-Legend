@@ -3,11 +3,8 @@ const { Events } = require("discord.js");
 module.exports = {
   name: Events.InteractionCreate,
 
-  /**
-   * @description Executes when an interaction is created and handle it.
-   * @param {import('discord.js').ContextMenuCommandInteraction & { client: import('../typings').Client }} interaction The interaction which was created
-   */
-  execute: async (interaction) => {
+  //Executes when an interaction is created and handle it.
+execute: async (interaction) => {
     // Deconstructed client from interaction object.
     const { client } = interaction;
 
