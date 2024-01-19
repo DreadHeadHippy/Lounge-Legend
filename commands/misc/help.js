@@ -1,8 +1,5 @@
 const { prefix } = require("./../../config.json");
 
-/**
- * @type {import('../../typings').LegacyCommand}
- */
 module.exports = {
     name: "help",
     description: "List all commands of bot or info about a specific command.",

@@ -1,8 +1,5 @@
-/**
- * @file Default Error Message On Error Button Interaction
- * @author Naman Vrati
- * @since 3.0.0
- */
+// Error Message On Error Button Interaction
+ 
 
 module.exports = {
 	/**
