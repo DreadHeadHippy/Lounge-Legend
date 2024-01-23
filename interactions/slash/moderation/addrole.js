@@ -1,5 +1,5 @@
-const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
-const { Permissions } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("addrole")
@@ -17,24 +17,30 @@ module.exports = {
         .setRequired(true)
     ),
 
-      async execute(interaction) {
-      const targetUser = interaction.options.getUser("target_user");
-      const roleName = interaction.options.getRole("role_name");
+  async execute(interaction) {
+    const targetUser = interaction.options.getUser("target_user");
+    const roleName = interaction.options.getRole("role_name");
 
-      const member = interaction.guild.members.cache.get(targetUser.id);
+    const member = interaction.guild.members.cache.get(targetUser.id);
 
-      // Check permissions here, using Permissions.FLAGS.MANAGE_ROLES
-        if (!interaction.member.permissions.has(BigInt(0x00000004))) {
-          return interaction.reply({ content: 'You do not have permission to add roles to members.', ephemeral: true });
-        }
+    // Check permissions here, using Permissions.FLAGS.MANAGE_ROLES
+    if (!interaction.member.permissions.has(BigInt(0x00000004))) {
+      return interaction.reply({
+        content: 'You do not have permission to add roles to members.',
+        ephemeral: true,
+      });
+    }
 
-      try {
-        // Add the role to the user
-        await member.roles.add(roleName);
-        await interaction.reply(`Added role ${roleName.name} to ${targetUser.tag}.`);
-      } catch (error) {
-        console.error(error);
-        await interaction.reply("There was an error adding the role.");
+    try {
+      // Remove previous roles
+      await member.roles.set([]);
+
+      // Add the new role to the user
+      await member.roles.add(roleName);
+      await interaction.reply(`Added role ${roleName.name} to ${targetUser.tag}.`);
+    } catch (error) {
+      console.error(error);
+      await interaction.reply("There was an error adding the role.");
     }
   },
 };
