@@ -20,6 +20,7 @@ module.exports = {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${apiKey}&units=imperial`;
 
     try {
+      
       // Make a request to the OpenWeatherMap API
       const response = await axios.get(apiUrl);
       const weatherInfo = response.data.weather[0];
@@ -35,7 +36,7 @@ module.exports = {
         - Humidity: ${humidity}%
         - Wind Speed: ${windSpeed} mph
       `);
-      
+
       // You can add additional formatting or logging as needed
     } catch (error) {
       // Handle errors, e.g., if the location is not found or there's an issue with the API request
