@@ -20,13 +20,22 @@ module.exports = {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${apiKey}&units=imperial`;
 
     try {
+      
       // Make a request to the OpenWeatherMap API
       const response = await axios.get(apiUrl);
       const weatherInfo = response.data.weather[0];
       const temperature = response.data.main.temp;
+      const humidity = response.data.main.humidity;
+      const windSpeed = response.data.wind.speed;
 
-      // Respond to the user with the weather information
-      await interaction.reply(`Current weather in ${location}: ${temperature}°F, ${weatherInfo.description}`);
+      // Respond to the user with extended weather information
+      await interaction.reply(`
+        Current weather in ${location}:
+        - Temperature: ${temperature}°F
+        - Description: ${weatherInfo.description}
+        - Humidity: ${humidity}%
+        - Wind Speed: ${windSpeed} mph
+      `);
 
       // You can add additional formatting or logging as needed
     } catch (error) {
