@@ -3,8 +3,8 @@ const axios = require('axios');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('qr')
-    .setDescription('Generate a QR code')
+    .setName('qrcreate')
+    .setDescription('Create a QR code')
     .addStringOption(option =>
       option.setName('content')
         .setDescription('The content for the QR code')
