@@ -40,6 +40,7 @@
 		"axios": "^1.6.7",
 		"canvas": "^2.11.2",
 		"canvas-constructor": "^7.0.1",
+		"cheerio": "^1.0.0-rc.12",
 		"discord-api-types": "^0.37.43",
 		"discord-canvas": "^1.5.2",
 		"discord.js": "^14.14.1",
