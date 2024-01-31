@@ -13,7 +13,7 @@ module.exports = {
                 // Check if the user has a specific attribute indicating it's a simulated user
                 if (!member.simulatedUser) {
                     // Assign a specific role to the new member
-                    const roleToAdd = member.guild.roles.cache.find(role => role.name === 'Bronze Member');
+                    const roleToAdd = member.guild.roles.cache.find(role => role.name === 'Silver Member');
 
                     if (roleToAdd) {
                         await member.roles.add(roleToAdd);
