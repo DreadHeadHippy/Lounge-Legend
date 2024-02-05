@@ -24,7 +24,14 @@ module.exports = {
     }
 
     try {
+      // Store user's roles before removing inmate role
+      const originalRoles = member.roles.cache.filter(role => role.id !== inmateRole.id);
+
       await member.roles.remove(inmateRole);
+
+      // Reapply original roles
+      await member.roles.add(originalRoles);
+
       await interaction.reply(`Successfully released ${user.tag} from jail.`);
     } catch (error) {
       console.error(error);

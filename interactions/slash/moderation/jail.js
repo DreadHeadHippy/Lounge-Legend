@@ -30,17 +30,25 @@ module.exports = {
     }
 
     try {
+      // Store user's roles before modifying
+      const originalRoles = member.roles.cache.map(role => role.id);
+
       // Add inmate role to the user
       await member.roles.add(inmateRole);
 
       // Remove other roles from the user
-      await member.roles.set([inmateRole]);
+      await member.roles.set([inmateRole.id]);
 
       await interaction.reply(`Successfully jailed ${user.tag} for ${duration} minutes!`);
 
       // Set a timeout to remove the inmate role after the specified duration
       setTimeout(async () => {
+        // Reapply original roles
+        await member.roles.add(originalRoles);
+
+        // Remove inmate role
         await member.roles.remove(inmateRole);
+
         interaction.followUp(`Released ${user.tag} from jail after ${duration} minutes.`);
       }, duration * 60000);
     } catch (error) {
