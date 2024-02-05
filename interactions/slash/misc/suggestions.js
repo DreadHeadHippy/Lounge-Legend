@@ -12,7 +12,7 @@ module.exports = {
 
   async execute(interaction) {
     const suggestion = interaction.options.getString('message');
-    const suggestionChannel = interaction.guild.channels.cache.find(channel => channel.name === 'suggestions');
+    const suggestionChannel = interaction.guild.channels.cache.find(channel => channel.name === 'ᔕᑌggeᔕtioᑎᔕ');
     suggestionChannel.send(`New Suggestion from ${interaction.user.tag}:\n${suggestion}`);
     await interaction.reply('Thank you for your suggestion!');
   },
