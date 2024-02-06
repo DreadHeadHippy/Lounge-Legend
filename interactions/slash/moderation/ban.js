@@ -25,7 +25,7 @@ module.exports = {
 
     try {
       await interaction.guild.members.ban(user, { reason });
-      await interaction.reply(`${user.tag} banned for ${reason}. Garbage taken out, Sir.`);
+      await interaction.reply(`Achievement Unlocked: Ban-Hammered! ${user.tag} banned for attempting to speedrun the rules of The Gamers Lounge.`);
     } catch (error) {
       console.error(error);
       await interaction.reply({ content: 'There was an error while trying to ban the user.', ephemeral: true });
