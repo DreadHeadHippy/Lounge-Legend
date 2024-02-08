@@ -16,8 +16,8 @@ module.exports = {
     const suggestionMessage = await suggestionChannel.send(`New Suggestion from ${interaction.user.tag}:\n${suggestion}`);
 
     // Add reactions for voting
-    await suggestionMessage.react('<:emoji_66:1203237357055250432>'); // Thumbs up
-    await suggestionMessage.react('<:emoji_67:1203237644029534269>'); // Thumbs down
+    await suggestionMessage.react('👍'); // Thumbs up
+    await suggestionMessage.react('👎'); // Thumbs down
 
     await interaction.reply('Thank you for your suggestion!');
   },
