@@ -37,6 +37,7 @@
 	},
 	"homepage": "https://github.com/NamVr/DiscordBot-Template#readme",
 	"dependencies": {
+		"@replit/database": "^2.0.5",
 		"axios": "^1.6.7",
 		"canvas": "^2.11.2",
 		"canvas-constructor": "^7.0.1",
