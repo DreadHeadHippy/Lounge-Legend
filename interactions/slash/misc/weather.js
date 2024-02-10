@@ -15,26 +15,41 @@ module.exports = {
     // Extract the location from the interaction
     const location = interaction.options.getString('location');
 
-    // Replace 'YOUR_OPENWEATHERMAP_API_KEY' with your actual OpenWeatherMap API key
-    const apiKey = 'c6f0262e4f075dd2a973ca5c960f477b';
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${apiKey}&units=imperial`;
+    // Replace 'YOUR_ACCUWEATHER_API_KEY' with your actual AccuWeather API key
+    const apiKey = 'g0sTHa5TbPwDRdUiebAan9aXhjRVdSJx';
+    const apiUrl = `http://dataservice.accuweather.com/locations/v1/search?q=${encodeURIComponent(location)}&apikey=${apiKey}`;
 
     try {
-      
-      // Make a request to the OpenWeatherMap API
-      const response = await axios.get(apiUrl);
-      const weatherInfo = response.data.weather[0];
-      const temperature = response.data.main.temp;
-      const humidity = response.data.main.humidity;
-      const windSpeed = response.data.wind.speed;
+      // Make a request to the AccuWeather API to get location key
+      const locationResponse = await axios.get(apiUrl);
+      const locationKey = locationResponse.data[0].Key;
+
+      // Use the location key to fetch current conditions
+      const currentConditionsUrl = `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}&details=true`;
+
+      // Make a request to the AccuWeather API for current conditions
+      const response = await axios.get(currentConditionsUrl);
+      const weatherInfo = response.data[0];
+
+      // Extract relevant information from the response
+      const temperature = weatherInfo.Temperature.Imperial.Value;
+      const description = weatherInfo.WeatherText;
+      const humidity = weatherInfo.RelativeHumidity;
+      const windSpeed = weatherInfo.Wind.Speed.Imperial.Value;
+      const uvIndex = weatherInfo.UVIndex;
+      const visibility = weatherInfo.Visibility.Imperial.Value;
+      const pressure = weatherInfo.Pressure.Imperial.Value;
 
       // Respond to the user with extended weather information
       await interaction.reply(`
         Current weather in ${location}:
         - Temperature: ${temperature}°F
-        - Description: ${weatherInfo.description}
+        - Description: ${description}
         - Humidity: ${humidity}%
         - Wind Speed: ${windSpeed} mph
+        - UV Index: ${uvIndex}
+        - Visibility: ${visibility} miles
+        - Pressure: ${pressure} inHg
       `);
 
       // You can add additional formatting or logging as needed
