@@ -13,11 +13,10 @@ module.exports = {
 
         const infoDeskChannels = [
             '[#arena-announcements](https://discord.com/channels/750491328688947212/1197301890682208276): Announcements from EFT:Arena',
-            '[#thefinals-announcements](https://discord.com/channels/750491328688947212/1184253032687489025): Announcements from THE FINALS',
-            '[#thefinals-patchnotes](https://discord.com/channels/750491328688947212/1184649435288981554): Patch notes from THE FINALS',
             '[#rocket-league](https://discord.com/channels/750491328688947212/1185503276993613935): Lets you check your MMR/RANK in Rocket League',
             '[#free-games](https://discord.com/channels/750491328688947212/1186846523334598707): Updates us with free games (may or may not be any good)',
-            '[#suggestions](https://discord.com/channels/750491328688947212/1199865837339824280): Check here to see if your server suggestions get approved or denied',
+          '[#polls](https://discord.com/channels/750491328688947212/1205967960661827639): Polls are held in here. If your vote is required you will be pinged.',
+            '[#suggestions](https://discord.com/channels/750491328688947212/1199865837339824280): Check here to vote on server suggestions and see if your server suggestions got approved or denied',
             '[#server-boosters](https://discord.com/channels/750491328688947212/1202764862569320488): These are the people that will be carried in Valhalla for boosting this server. We thank you!'
         ];
 
