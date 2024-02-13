@@ -1,6 +1,5 @@
 Hello! Welcome to "Lounge Legend". A custom discord bot I made for my personal server.
 I add more commands as I need them and I am a novice coder so some things may take time.
-Currently tinkering with a temp voice channel function (still looking into this one lol).
 You can fork & host this project as your own, just modify it to fit your needs.
 Feel free to message me with any questions!
 ```
