@@ -5,13 +5,13 @@ module.exports = {
     execute(message, args) {
         const pingEmbed = {
             color: 0x3498db, // Use the integer value for the color
-            title: "Ping",
-            description: "Calculating ping...",
+            title: "🏓Pong!",
+            description: "Calculating pong...",
         };
 
         message.channel.send({ embeds: [pingEmbed] }).then(sentMessage => {
-            const ping = sentMessage.createdTimestamp - message.createdTimestamp;
-            pingEmbed.description = `Bot latency: ${ping}ms | API latency: ${message.client.ws.ping}ms`;
+            const pong = sentMessage.createdTimestamp - message.createdTimestamp;
+            pingEmbed.description = `Bot latency: ${pong}ms | API latency: ${message.client.ws.ping}ms`;
             sentMessage.edit({ embeds: [pingEmbed] });
         });
     },
