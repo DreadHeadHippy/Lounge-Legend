@@ -15,9 +15,17 @@ module.exports = {
     const suggestionChannel = interaction.guild.channels.cache.find(channel => channel.name === 'ᔕᑌggeᔕtioᑎᔕ');
     const suggestionMessage = await suggestionChannel.send(`New Suggestion from ${interaction.user.tag}:\n${suggestion}`);
 
-    // Add reactions for voting
-    await suggestionMessage.react('👍'); // Thumbs up
-    await suggestionMessage.react('👎'); // Thumbs down
+    // Get custom emojis from the guild and filter by name
+    const upVoteEmoji = interaction.guild.emojis.cache.find(emoji => emoji.name === 'UpVote');
+    const downVoteEmoji = interaction.guild.emojis.cache.find(emoji => emoji.name === 'DownVote');
+
+    // Add reactions for voting using custom emojis
+    if (upVoteEmoji && downVoteEmoji) {
+      await suggestionMessage.react(upVoteEmoji);
+      await suggestionMessage.react(downVoteEmoji);
+    } else {
+      await interaction.reply("Couldn't find custom emojis. Please make sure they're set up correctly.");
+    }
 
     await interaction.reply('Thank you for your suggestion!');
   },
