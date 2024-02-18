@@ -48,13 +48,13 @@ module.exports = {
         }
 
         const totalDurationSeconds = (durationDays || 0) * 24 * 60 * 60 + (durationHours || 0) * 60 * 60 + (durationMinutes || 0) * 60 + (durationSeconds || 0);
-        const endTime = new Date(Date.now() + totalDurationSeconds * 1000);
+        const endTime = totalDurationSeconds > 0 ? new Date(Date.now() + totalDurationSeconds * 1000) : null;
 
         const pollEmbed = {
             color: 0x3498db,
             title: question,
             description: options.map((option, index) => `${index + 1}. ${option}`).join('\n'),
-            footer: { text: `React with the corresponding emoji to vote | Poll ends in: ${formatDuration(totalDurationSeconds)}` }
+            footer: { text: totalDurationSeconds > 0 ? `React with the corresponding emoji to vote | Poll ends in: ${formatDuration(totalDurationSeconds)}` : 'This poll has no duration set.' }
         };
 
         const pollMessage = await interaction.channel.send({ embeds: [pollEmbed] });
@@ -63,24 +63,26 @@ module.exports = {
             await pollMessage.react(String(i + 1) + '\u20E3'); // Adds reaction numbers 1️⃣, 2️⃣, etc.
         }
 
-        const updateInterval = 1000; // Update every second
-        const updateMessage = async () => {
-            const timeRemaining = endTime - Date.now();
+        if (totalDurationSeconds > 0) {
+            const updateInterval = 1000; // Update every second
+            const updateMessage = async () => {
+                const timeRemaining = endTime - Date.now();
 
-            if (timeRemaining > 0) {
-                pollEmbed.footer.text = `React with the corresponding emoji to vote | Poll ends in: ${formatDuration(timeRemaining / 1000)}`;
-                await pollMessage.edit({ embeds: [pollEmbed] });
-                setTimeout(updateMessage, updateInterval);
-            } else {
-                pollEmbed.footer.text = 'Voting for this poll has ended.';
-                await pollMessage.edit({ embeds: [pollEmbed] });
-                const voteCounts = await getVoteCounts(pollMessage, options);
-                await postResults(interaction.channel, options, voteCounts);
-                await pollMessage.reactions.removeAll(); // Remove all reactions to prevent further voting
-            }
-        };
+                if (timeRemaining > 0) {
+                    pollEmbed.footer.text = `React with the corresponding emoji to vote | Poll ends in: ${formatDuration(timeRemaining / 1000)}`;
+                    await pollMessage.edit({ embeds: [pollEmbed] });
+                    setTimeout(updateMessage, updateInterval);
+                } else {
+                    pollEmbed.footer.text = 'Voting for this poll has ended.';
+                    await pollMessage.edit({ embeds: [pollEmbed] });
+                    const voteCounts = await getVoteCounts(pollMessage, options);
+                    await postResults(interaction.channel, question, options, voteCounts);
+                    await pollMessage.reactions.removeAll(); // Remove all reactions to prevent further voting
+                }
+            };
 
-        updateMessage();
+            updateMessage();
+        }
 
         await interaction.reply('Poll created!');
     },
@@ -108,11 +110,11 @@ async function getVoteCounts(pollMessage, options) {
 }
 
 // Function to post results
-async function postResults(channel, options, voteCounts = []) {
+async function postResults(channel, question, options, voteCounts = []) {
     const resultsEmbed = {
         color: 0x2ecc71,
         title: 'Poll Results',
-        description: options.map((option, index) => `${option}: ${voteCounts[index] || 0} votes`).join('\n')
+        description: `Question: ${question}\n${options.map((option, index) => `${option}: ${voteCounts[index] || 0} votes`).join('\n')}`
     };
     await channel.send({ embeds: [resultsEmbed] });
 }
