@@ -16,8 +16,8 @@ module.exports = {
 
 	/**
 	 * @description Executes when a message is created and handle it.
-	 * @author Naman Vrati
-	 * @param {import('discord.js').Message & { client: import('../typings').Client }} message The message which was created.
+	 *
+	 * {import('discord.js').Message & { client: import('../typings').Client }} message The message which was created.
 	 */
 
 	async execute(message) {
@@ -154,7 +154,7 @@ module.exports = {
 		timestamps.set(message.author.id, now);
 		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
-		// Rest your creativity is below.
+		// Rest of your creativity is below.
 
 		// execute the final command. Put everything above this.
 		try {

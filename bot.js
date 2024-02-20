@@ -301,6 +301,14 @@ client.on('guildMemberRemove', guildMemberRemove);
   client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
 
+    // Set the bot's profile picture
+        const gifFilePath = 'Bot pfp/Lounge Legend.gif'; // Replace with the actual path to your GIF file
+        const gifData = fs.readFileSync(gifFilePath);
+        client.user.setAvatar(gifData)
+            .then(() => console.log('Profile picture updated successfully!'))
+            .catch(console.error);
+    });
+
     // Rest of your existing code (Express server setup)
     const express = require('express')
     const app = express();
@@ -311,7 +319,6 @@ client.on('guildMemberRemove', guildMemberRemove);
     app.listen(port, () => {
       console.log(`Lounge Legend is now deployed!`)
     });
-  });
 
   // Login into your client application with bot's token.
   client.login(token);
