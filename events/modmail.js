@@ -16,8 +16,7 @@ module.exports = {
             } else {
                 console.error('Modmail channel not found.');
             }
-            console.log(`Reply sent to ${message.author.tag}: Your message has been forwarded to the moderators.`);
-            await message.author.send('Your message has been forwarded to the moderators.');
+            await message.react('✅'); // React with ✅ (Unicode representation)
         }
     },
 };
