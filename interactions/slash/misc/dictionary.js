@@ -3,8 +3,8 @@ const axios = require('axios');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('lookup')
-    .setDescription('Look up the definition of a word')
+    .setName('dictionary')
+    .setDescription('Look up the definition of a word in the Dictionary')
     .addStringOption(option =>
       option.setName('word')
         .setDescription('Enter the word you want to look up')
