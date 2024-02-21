@@ -302,7 +302,7 @@ client.on('guildMemberRemove', guildMemberRemove);
     console.log(`Logged in as ${client.user.tag}`);
 
     // Set the bot's profile picture
-        const gifFilePath = 'Bot pfp/coding monkey.gif'; // Replace with the actual path to your GIF file
+        const gifFilePath = 'Bot pfp/cute bot.gif'; // Replace with the actual path to your GIF file
         const gifData = fs.readFileSync(gifFilePath);
         client.user.setAvatar(gifData)
             .then(() => console.log('Profile picture updated successfully!'))
