@@ -3,7 +3,7 @@
 module.exports = {
     name: 'messageCreate',
     async execute(message, client) {
-        const modMailChannelId = '1205411930307559484'; // Replace with your modmail channel ID
+        const modMailChannelId = '1208632931762053177'; // Replace with your modmail channel ID
 
         // Filter out messages that are not in guilds (direct messages)
         if (!message.guild && !message.author.bot) {
@@ -16,8 +16,7 @@ module.exports = {
             } else {
                 console.error('Modmail channel not found.');
             }
-            console.log(`Reply sent to ${message.author.tag}: Your message has been forwarded to the moderators.`);
-            await message.author.send('Your message has been forwarded to the moderators.');
+            await message.react('✅'); // React with ✅ (Unicode representation)
         }
     },
 };
