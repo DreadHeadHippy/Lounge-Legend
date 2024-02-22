@@ -3,9 +3,9 @@ module.exports = (member) => {
   const farewellEmbed = {
     color: 0xff0000,
     title: `${member.displayName} left!`,
-    description: 'Good Riddance!',
+    description: 'Goodbye Traveler!',
     footer: {
-      text: 'www.boohoohoo.com',
+      text: 'Good Luck In The Aether!',
     },
     thumbnail: {
       url: member.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }) || member.user.defaultAvatarURL,
