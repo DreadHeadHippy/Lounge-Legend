@@ -23,7 +23,7 @@ module.exports = {
             }
 
             const welcomeChannels = [`[#reception](https://discord.com/channels/750491328688947212/1185357802126966854): You are here!`,
-                                    '[#rules](https://discord.com/channels/750491328688947212/1203606716260950097): The rules for this server.',];
+                                    '[#rules](https://discord.com/channels/750491328688947212/1203606716260950097): The ~~rules~~ __laws__ \'round these parts.',];
 
           const infoDeskChannels = [
               '[#arena-announcements](https://discord.com/channels/750491328688947212/1197301890682208276): Announcements from EFT:Arena',
@@ -35,9 +35,9 @@ module.exports = {
           ];
 
             const mainLobbyChannels = [
-                '[#the-lounge](https://discord.com/channels/750491328688947212/1185303246059864114): A place to chill, chat, share clips and highlights, etc.',
+                '[#the-lounge](https://discord.com/channels/750491328688947212/1185303246059864114): The main hangout.',
                 '[#cards-against-humanity](https://discord.com/channels/750491328688947212/1197304121557012541): Lets you play "Cards Against Humanity" with other server members. (Type /help for help)',
-              '[#room-of-requirement](https://discord.com/channels/750491328688947212/1203608039307874304): Use this as personal chat rooms.',
+              '[#room-of-requirement](https://discord.com/channels/750491328688947212/1203608039307874304): If you require it, make a room for it!.',
             ];
 
             const serverInvitationChannel = [
