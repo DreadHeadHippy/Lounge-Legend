@@ -5,7 +5,7 @@ module.exports = (member) => {
     title: `${member.displayName} left!`,
     description: 'Goodbye Traveler!',
     footer: {
-      text: 'Good Luck In The Aether!',
+      text: 'good luck in the aether!',
     },
     thumbnail: {
       url: member.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }) || member.user.defaultAvatarURL,
