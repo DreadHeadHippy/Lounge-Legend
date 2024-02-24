@@ -36,7 +36,7 @@ module.exports = {
             const mainLobbyChannels = [
                 '[#the-lounge](https://discord.com/channels/750491328688947212/1185303246059864114): The main hangout.',
                 '[#cards-against-humanity](https://discord.com/channels/750491328688947212/1197304121557012541): Lets you play "Cards Against Humanity" with other server members. (Type /help for help)',
-              '[#room-of-requirement](https://discord.com/channels/750491328688947212/1203608039307874304): If you require it, make a room for it!.',
+              '[#room-of-requirement](https://discord.com/channels/750491328688947212/1203608039307874304): If you require it, make a room for it!',
             ];
 
             const serverInvitationChannel = [

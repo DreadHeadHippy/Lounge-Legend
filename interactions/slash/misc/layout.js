@@ -70,6 +70,8 @@ module.exports = {
             ],
         };
 
-        await interaction.reply({ embeds: [layoutEmbed] });
+        await interaction.reply({ embeds: [layoutEmbed],
+                                ephemeral: true
+                                });
     },
 };

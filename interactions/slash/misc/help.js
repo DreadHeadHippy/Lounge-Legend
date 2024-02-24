@@ -68,7 +68,9 @@ module.exports = {
 		// Replies to the interaction!
 
 		await interaction.reply({
-			embeds: [helpEmbed],
-		});
+    embeds: [helpEmbed],
+    ephemeral: true
+});
+
 	},
 };
