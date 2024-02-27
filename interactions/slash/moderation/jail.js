@@ -25,7 +25,7 @@ module.exports = {
       return interaction.reply('The "inmate" role is not set up properly.');
     }
 
-    if (!interaction.member.permissions.has(BigInt(0x00000004))) {
+    if (!interaction.member.permissions.has(BigInt(0x10000000))) {
       return interaction.reply({ content: 'You do not have permission to jail users.', ephemeral: true });
     }
 

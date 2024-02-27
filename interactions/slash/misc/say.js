@@ -23,7 +23,7 @@ module.exports = {
     const channel = interaction.options.getChannel('channel');
     const userId = interaction.options.getString('user');
 
-    if (!interaction.member.permissions.has(BigInt(0x00000004))) {
+    if (!interaction.member.permissions.has(BigInt(0x00002000))) {
       return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });
     }
 

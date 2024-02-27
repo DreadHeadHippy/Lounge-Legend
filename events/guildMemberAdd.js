@@ -48,7 +48,7 @@ module.exports = {
             ];
 
             const voiceChannels = [
-                '[#Join To Create](https://discord.com/channels/750491328688947212/1197959997259256018): Upon joining, you will be moved to a personal VC where other members can join you. Once a personal channel is empty, it will be REMOVED automatically. This feature allows for better COMS on busy days :)',
+              '[#Join To Create](https://discord.com/channels/750491328688947212/1197959997259256018): Upon joining, you will be moved to a personal VC **you** can control! *Click the chat bubble of your VC for controls!* Once a personal channel is empty, it will be **REMOVED** automatically. This feature allows for better COMS on busy days :)',
             ];
 
             const randomColor = Math.floor(Math.random() * 16777215);

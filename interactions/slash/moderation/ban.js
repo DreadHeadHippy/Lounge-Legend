@@ -19,7 +19,7 @@ module.exports = {
     const user = interaction.options.getUser('user');
     const reason = interaction.options.getString('reason') || 'No reason provided';
 
-    if (!interaction.member.permissions.has(BigInt(0x00000004))) {
+    if (!interaction.member.permissions.has(BigInt(0x10000000))) {
       return interaction.reply({ content: 'You do not have permission to ban members.', ephemeral: true });
     }
 

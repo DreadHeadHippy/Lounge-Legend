@@ -23,7 +23,7 @@ module.exports = {
             return await interaction.reply('This command can only be used in a server.');
         }
 
-      if (!interaction.member.permissions.has(BigInt(0x00000004))) {
+      if (!interaction.member.permissions.has(BigInt(0x10000000))) {
         return interaction.reply({ content: 'You do not have permission to ban members.', ephemeral: true });
       }
 

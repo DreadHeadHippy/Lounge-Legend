@@ -8,7 +8,7 @@ module.exports = {
     async execute(interaction) {
         const welcomeChannels = [
             '[#reception](https://discord.com/channels/750491328688947212/1185357802126966854): The channel you arrived in when you joined this server.',
-          '[#rules](https://discord.com/channels/750491328688947212/1203606716260950097): The ~~rules~~ __laws__ \'round these parts..',
+          '[#rules](https://discord.com/channels/750491328688947212/1203606716260950097): The ~~rules~~ __laws__ \'round these parts.',
         ];
 
         const infoDeskChannels = [
@@ -34,7 +34,7 @@ module.exports = {
         ];
 
         const voiceChannels = [
-            '[#Join To Create](https://discord.com/channels/750491328688947212/1197959997259256018): Upon joining, you will be moved to a personal VC where other members can join you. Once a personal channel is empty, it will be REMOVED automatically. This feature allows for better COMS on busy days :)',
+          '[#Join To Create](https://discord.com/channels/750491328688947212/1197959997259256018): Upon joining, you will be moved to a personal VC **you** can control! *Click the chat bubble of your VC for controls!* Once a personal channel is empty, it will be **REMOVED** automatically. This feature allows for better COMS on busy days :)',
         ];
 
         const randomColor = Math.floor(Math.random() * 16777215);

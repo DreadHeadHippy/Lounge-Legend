@@ -13,7 +13,7 @@ module.exports = {
   async execute(interaction) {
     const guild = interaction.guild;
 
-    if (!interaction.member.permissions.has(BigInt(0x00000004))) {
+    if (!interaction.member.permissions.has(BigInt(0x10000000))) {
       return interaction.reply({ content: 'You do not have permission to unban members.', ephemeral: true });
     }
 
