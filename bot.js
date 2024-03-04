@@ -12,6 +12,41 @@ const {
 const { client_id, test_guild_id } = require("./config.json");
 const token = process.env['token'];
 const guildMemberRemove = require('./events/guildMemberRemove');
+const reactionRoles = require('./reactionRoles.json');
+
+// Define cache for reaction messages
+const reactionMessageCache = new Map();
+
+// Function to cache reaction messages from a specific channel
+const cacheReactionMessages = async () => {
+    // Get the guild where the channel is located
+    const guild = client.guilds.cache.get('750491328688947212');
+    if (!guild) {
+        console.error(`Guild not found`);
+        return;
+    }
+
+    // Get the channel by its ID
+const channel = guild.channels.cache.get('1213245206804299818');
+if (!channel) {
+    console.error(`Channel not found`);
+    return;
+}
+  
+    // Fetch the messages in the channel
+    try {
+        const messages = await channel.messages.fetch({ limit: 100 });
+
+        // Cache the reaction messages
+        messages.filter(message => message.reactions.cache.size > 0)
+            .forEach(message => {
+                // Cache the message in the reactionMessageCache map
+                reactionMessageCache.set(message.id, message);
+            });
+    } catch (error) {
+        console.error(`Error fetching messages in channel: ${error}`);
+    }
+};
 
 /**
  * From v13, specifying the intents is compulsory.
@@ -26,6 +61,7 @@ const client = new Client({
     GatewayIntentBits.DirectMessages,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMessageReactions
   ],
   partials: [Partials.Channel],
 });
@@ -297,9 +333,76 @@ for (const folder of triggerFolders) {
 // Use the guildMemberRemove event
 client.on('guildMemberRemove', guildMemberRemove);
 
+// Listen for the 'messageReactionAdd' event
+client.on('messageReactionAdd', async (reaction, user) => {
+  // Check if the reaction is added to a message in a guild
+  if (!reaction.message.guild) return;
+
+  // Check if the reacted emoji is mapped to a role in the configuration
+  const roleId = reactionRoles[reaction.emoji.name];
+  if (!roleId) return;
+
+  // Get the role object corresponding to the roleId
+  const role = reaction.message.guild.roles.cache.get(roleId);
+  if (!role) {
+    console.error(`Role with ID ${roleId} not found.`);
+    return;
+  }
+
+  // Get the member who reacted
+  const member = reaction.message.guild.members.cache.get(user.id);
+  if (!member) {
+    console.error(`Member with ID ${user.id} not found.`);
+    return;
+  }
+
+  // Assign the role to the member
+  try {
+    await member.roles.add(role);
+    console.log(`Role ${role.name} added to ${member.user.tag}`);
+  } catch (error) {
+    console.error(`Error assigning role ${role.name} to ${member.user.tag}: ${error}`);
+  }
+});
+
+// Listen for the 'messageReactionRemove' event
+client.on('messageReactionRemove', async (reaction, user) => {
+  // Check if the reaction is removed from a message in a guild
+  if (!reaction.message.guild) return;
+
+  // Check if the reacted emoji is mapped to a role in the configuration
+  const roleId = reactionRoles[reaction.emoji.name];
+  if (!roleId) return;
+
+  // Get the role object corresponding to the roleId
+  const role = reaction.message.guild.roles.cache.get(roleId);
+  if (!role) {
+    console.error(`Role with ID ${roleId} not found.`);
+    return;
+  }
+
+  // Get the member who removed the reaction
+  const member = reaction.message.guild.members.cache.get(user.id);
+  if (!member) {
+    console.error(`Member with ID ${user.id} not found.`);
+    return;
+  }
+
+  // Remove the role from the member
+  try {
+    await member.roles.remove(role);
+    console.log(`Role ${role.name} removed from ${member.user.tag}`);
+  } catch (error) {
+    console.error(`Error removing role ${role.name} from ${member.user.tag}: ${error}`);
+  }
+});
+
   // Listen for the 'ready' event
   client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
+
+    // Cache reaction messages when the bot starts up
+    cacheReactionMessages();
 
     // Set the bot's profile picture
         const gifFilePath = 'Bot pfp/Lounge Legend.gif'; // Replace with the actual path to your GIF file
