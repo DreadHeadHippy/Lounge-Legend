@@ -23,7 +23,9 @@ module.exports = {
             }
 
             const welcomeChannels = [`[#reception](https://discord.com/channels/750491328688947212/1185357802126966854): You are here!`,
-                                    '[#rules](https://discord.com/channels/750491328688947212/1203606716260950097): The ~~rules~~ __laws__ \'round these parts.',];
+                                    '[#rules](https://discord.com/channels/750491328688947212/1203606716260950097): The ~~rules~~ __laws__ \'round these parts.',
+
+          '[#auto-roles](https://discord.com/channels/750491328688947212/1213245206804299818): Go get you some roles here.',];
 
           const infoDeskChannels = [
               '[#rocket-league](https://discord.com/channels/750491328688947212/1185503276993613935): Lets you check your MMR/RANK in Rocket League',
