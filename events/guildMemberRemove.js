@@ -12,7 +12,7 @@ module.exports = (member) => {
     },
   };
 
-  const farewellChannel = member.guild.channels.cache.find(channel => channel.name === 'farewell');
+  const farewellChannel = member.guild.channels.cache.find(channel => channel.name === '𝕱𝖆𝖗𝖊𝖜𝖊𝖑𝖑');
   console.log(`Farewell channel: ${farewellChannel}`);
 
   if (farewellChannel) {

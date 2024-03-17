@@ -405,14 +405,14 @@ client.on('messageReactionRemove', async (reaction, user) => {
     cacheReactionMessages();
 
     // Set the bot's profile picture
-        const gifFilePath = 'Bot pfp/Lounge Legend.gif'; // Replace with the actual path to your GIF file
+        const gifFilePath = 'Bot pfp/Lounge Legend.gif';
         const gifData = fs.readFileSync(gifFilePath);
         client.user.setAvatar(gifData)
             .then(() => console.log('Profile picture updated successfully!'))
             .catch(console.error);
     });
 
-    // Rest of your existing code (Express server setup)
+    // Express server setup
     const express = require('express')
     const app = express();
     const port = 3000;
