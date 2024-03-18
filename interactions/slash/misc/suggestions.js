@@ -12,7 +12,12 @@ module.exports = {
 
   async execute(interaction) {
     const suggestion = interaction.options.getString('message');
-    const suggestionChannel = interaction.guild.channels.cache.find(channel => channel.name === 'ᔕᑌggeᔕtioᑎᔕ');
+    // Find the suggestion channel by ID instead of name
+    const suggestionChannel = interaction.guild.channels.cache.get('1199865837339824280');
+    if (!suggestionChannel) {
+      return interaction.reply("Couldn't find the suggestion channel.");
+    }
+
     const suggestionMessage = await suggestionChannel.send(`New Suggestion from ${interaction.user.tag}:\n${suggestion}`);
 
     // Get custom emojis from the guild and filter by name

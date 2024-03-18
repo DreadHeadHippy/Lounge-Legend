@@ -1,4 +1,3 @@
-// events/guildMemberAdd.js
 module.exports = {
     name: 'guildMemberAdd',
     once: false,
@@ -8,20 +7,7 @@ module.exports = {
 
             if (!welcomeChannel) return;
 
-            if (member) {
-                if (!member.simulatedUser) {
-                    const roleToAdd = member.guild.roles.cache.find(role => role.name === 'Silver Member');
-
-                    if (roleToAdd) {
-                        await member.roles.add(roleToAdd);
-                    } else {
-                        console.error('Role not found. Make sure the role exists and the bot has the necessary permissions.');
-                    }
-                }
-            } else {
-                console.error('Member not found.');
-            }
-
+            const verifyChannel = '[#verify](https://discord.com/channels/750491328688947212/1219337459498877061): Verify you are a human to gain access to the rest of the server.';
             const welcomeChannels = [`[#reception](https://discord.com/channels/750491328688947212/1185357802126966854): You are here!`,
                                     '[#rules](https://discord.com/channels/750491328688947212/1203606716260950097): The ~~rules~~ __laws__ \'round these parts.',
 
@@ -63,6 +49,10 @@ module.exports = {
                 },
                 description: `**Welcome ${member.displayName} to ${member.guild.name}, the best chill spot for the homies!**`,
                 fields: [
+                    {
+                        name: '**✅️ VERIFY**',
+                        value: verifyChannel,
+                    },
                     {
                         name: '**👋 WELCOME**',
                         value: welcomeChannels.join('\n'),
