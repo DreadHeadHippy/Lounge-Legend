@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const axios = require('axios');
+const mySecret = process.env['apiKey']
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -16,7 +17,7 @@ module.exports = {
     const location = interaction.options.getString('location');
 
     // Replace 'YOUR_ACCUWEATHER_API_KEY' with your actual AccuWeather API key
-    const apiKey = 'g0sTHa5TbPwDRdUiebAan9aXhjRVdSJx';
+    const apiKey = 'apiKey';
     const apiUrl = `http://dataservice.accuweather.com/locations/v1/search?q=${encodeURIComponent(location)}&apikey=${apiKey}`;
 
     try {
