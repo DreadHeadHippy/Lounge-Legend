@@ -3,7 +3,7 @@ module.exports = {
     once: false,
     execute: async (member) => {
         try {
-            const welcomeChannel = member.guild.channels.cache.find(channel => channel.name === '𝕽𝖊𝖈𝖊𝖕𝖙𝖎𝖔𝖓');
+            const welcomeChannel = member.guild.channels.cache.find(channel => channel.name === '𝐑𝐞𝐜𝐞𝐩𝐭𝐢𝐨𝐧');
 
             if (!welcomeChannel) return;
 
