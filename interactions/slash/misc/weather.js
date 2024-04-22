@@ -17,7 +17,7 @@ module.exports = {
     const location = interaction.options.getString('location');
 
     // Replace 'YOUR_ACCUWEATHER_API_KEY' with your actual AccuWeather API key
-    const apiKey = 'apiKey';
+    const apiKey = 'g0sTHa5TbPwDRdUiebAan9aXhjRVdSJx';
     const apiUrl = `http://dataservice.accuweather.com/locations/v1/search?q=${encodeURIComponent(location)}&apikey=${apiKey}`;
 
     try {
