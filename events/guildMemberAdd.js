@@ -17,7 +17,6 @@ module.exports = {
               '[#rocket-league](https://discord.com/channels/750491328688947212/1185503276993613935): Lets you check your MMR/RANK in Rocket League',
               '[#free-games](https://discord.com/channels/750491328688947212/1186846523334598707): Updates us with free games (may or may not be any good)',
             '[#polls](https://discord.com/channels/750491328688947212/1205967960661827639): Polls are held in here. If your vote is required you will be pinged.',
-            '[#suggestions](https://discord.com/channels/750491328688947212/1199865837339824280): Check here to vote on server suggestions and see if your server suggestions got approved or denied',
               '[#server-boosters](https://discord.com/channels/750491328688947212/1202764862569320488): These are the people that will be carried in Valhalla for boosting this server. We thank you!'
           ];
 
