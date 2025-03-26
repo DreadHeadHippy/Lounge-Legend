@@ -7,7 +7,7 @@ module.exports = {
 
             if (!welcomeChannel) return;
 
-            const verifyChannel = '[#verify](https://discord.com/channels/750491328688947212/1219337459498877061): Verify you are a human to gain access to the rest of the server.';
+            const verifyChannel = '[#verify](https://discord.com/channels/750491328688947212/1354378296724553779): Verify you are a human to gain access to the rest of the server.';
             const welcomeChannels = [`[#reception](https://discord.com/channels/750491328688947212/1185357802126966854): You are here!`,
                                     '[#rules](https://discord.com/channels/750491328688947212/1203606716260950097): The ~~rules~~ __laws__ \'round these parts.',
 
