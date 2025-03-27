@@ -417,10 +417,10 @@ client.on('messageReactionRemove', async (reaction, user) => {
     const app = express();
     const port = 3000;
     app.get('/', (req, res) => {
-      res.send('Lounge Legend is online!')
+      res.send('Pedro is online!')
     })
     app.listen(port, () => {
-      console.log(`Lounge Legend is now deployed!`)
+      console.log(`Pedro is now deployed!`)
     });
 
   // Login into your client application with bot's token.
