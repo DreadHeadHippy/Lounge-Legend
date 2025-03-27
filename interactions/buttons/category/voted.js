@@ -15,7 +15,7 @@ module.exports = {
     setTimeout(async () => {
       try {
         await interaction.followUp({
-          content: "It's time to vote again!",
+          content: `<@${interaction.user.id}>, it's time to vote again!`,
           ephemeral: true, // Keeps this reminder private
         });
       } catch (error) {
