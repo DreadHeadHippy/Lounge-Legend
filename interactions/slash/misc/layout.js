@@ -7,7 +7,7 @@ module.exports = {
 
     async execute(interaction) {
         const welcomeChannels = [
-            '[#reception](https://discord.com/channels/750491328688947212/1185357802126966854): The channel you arrived in when you joined this server.',
+            '[#reception](https://discord.com/channels/750491328688947212/1185357802126966854): The channel you arrived in when you joined this server. This is also where you [__***invite your friends***__](https://discord.com/channels/750491328688947212/1185357802126966854).',
           '[#rules](https://discord.com/channels/750491328688947212/1203606716260950097): The ~~rules~~ __laws__ \'round these parts.',
           '[#roles](https://discord.com/channels/750491328688947212/1213245206804299818): Go get you some roles here.',
         ];
@@ -21,20 +21,14 @@ module.exports = {
 
         const mainLobbyChannels = [
             '[#the-lounge](https://discord.com/channels/750491328688947212/1185303246059864114): The main hangout.',
+              '[#screenshots-clips](https://discord.com/channels/750491328688947212/1351723109098590238): Share every sick gaming moment here.',
+                '[#game-bot](https://discord.com/channels/750491328688947212/1197304121557012541): Play bot games in this channel.',
           '[#commands](https://discord.com/channels/750491328688947212/1210710468445081740): Keep bot commands in here.',
           '[#room-of-requirement](https://discord.com/channels/750491328688947212/1203608039307874304): If you require it, make a room for it!',
         ];
 
-        const serverInvitationChannel = [
-            '[#invite-your-friends](https://discord.com/channels/750491328688947212/1184398185175719996): Invite your friends to this server',
-        ];
-
-        const partnerChannel = [
-            '[#become-a-partner](https://discord.com/channels/750491328688947212/1202707191249899590): All the info you need to become a partner with this server',
-        ];
-
         const voiceChannels = [
-          '[#Join To Create](https://discord.com/channels/750491328688947212/1197959997259256018): Upon joining, you will be moved to a personal VC **you** can control! *Click the chat bubble of your VC for controls!* Once a personal channel is empty, it will be **REMOVED** automatically. This feature allows for better COMS on busy days :)',
+          '[#Join To Create](https://discord.com/channels/750491328688947212/1197959997259256018): Upon joining, you will be moved to a personal VC **you** can control! *Click the chat bubble of your VC for controls*! Once a personal channel is empty, it will be **REMOVED** automatically. This feature allows for better COMS on busy days :)',
         ];
 
         const randomColor = Math.floor(Math.random() * 16777215);
@@ -54,14 +48,6 @@ module.exports = {
                 {
                     name: '**😎 MAIN LOBBY**',
                     value: mainLobbyChannels.join('\n'),
-                },
-                {
-                    name: '**📩 SERVER INVITATION**',
-                    value: serverInvitationChannel.join('\n'),
-                },
-                {
-                    name: '**🤝 PARTNERS**',
-                    value: partnerChannel.join('\n'),
                 },
                 {
                     name: '**🎤 VOICE CHANNELS**',
