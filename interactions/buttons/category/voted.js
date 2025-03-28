@@ -44,11 +44,8 @@ module.exports = {
     // Schedule the reminder
     setTimeout(async () => {
       try {
-        // Send the reminder and clean up the timer
-        await interaction.followUp({
-          content: `<@${userId}>, it's time to vote again!`,
-          ephemeral: true,
-        });
+        // Send the reminder as a new message in the same channel
+        await interaction.channel.send(`<@${userId}>, it's time to vote again!`);
 
         // Remove the user from the activeTimers collection
         activeTimers.delete(userId);
