@@ -13,7 +13,7 @@ module.exports = {
 
   async execute(interaction) {
     const gameTitleInput = interaction.options.getString('title'); // User-provided game title
-    const steamApiKey = 'placeholder'; // Replace 'placeholder' with your Steam API key
+    const steamApiKey = 'steam_key'; // Replace 'placeholder' with your Steam API key
     const searchUrl = `https://api.steampowered.com/ISteamApps/GetAppList/v2/`;
 
     try {
