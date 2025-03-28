@@ -26,7 +26,7 @@ module.exports = {
       await interaction.reply({
         content: 'Please verify yourself by selecting your identity:',
         components: [row],
-        ephemeral: false, // Change to true if the interaction should be private
+        ephemeral: true, // Change to true if the interaction should be private
       });
     } catch (error) {
       console.error('Error during identity check:', error);
