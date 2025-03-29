@@ -1,169 +1,180 @@
-// Message Based Commands Handler
+const { Collection, ChannelType, Events, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require("discord.js");
+const config = require("../config.json"); // Import your config.json file
 
-// Declares constants (destructured) to be used in this file.
+// Directly define adminRoleId and suggestionsChannelId here
+const adminRoleId = "1204091424686215180"; // Replace with actual Admin Role ID
+const suggestionsChannelId = "1355273996345540789"; // Replace with actual Suggestions Channel ID
 
-const { Collection, ChannelType, Events } = require("discord.js");
-const { prefix, owner } = require("../config.json");
+// Use values from config.json
+const prefix = config.prefix;
+const owner = config.owner;
 
-// Prefix regex, we will use to match in mention prefix.
-
+// Prefix regex for matching mention prefix
 const escapeRegex = (string) => {
-	return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 };
 
 module.exports = {
-	name: Events.MessageCreate,
+  name: Events.MessageCreate,
 
-	/**
-	 * @description Executes when a message is created and handle it.
-	 *
-	 * {import('discord.js').Message & { client: import('../typings').Client }} message The message which was created.
-	 */
+  async execute(message) {
+    // Early exits for invalid conditions
+    if (!message || !message.channel || !message.author || !message.content) {
+      console.warn("Received invalid or system message. Ignoring.");
+      return;
+    }
 
-	async execute(message) {
-		// Declares const to be used.
+    // Ensure the bot doesn't process its own messages
+    if (message.author.bot) {
+      console.warn("Message is from a bot. Ignoring.");
+      return;
+    }
 
-		const { client, guild, channel, content, author } = message;
+    // Ignore non-GuildText channels
+    if (message.channel.type !== ChannelType.GuildText) {
+      console.warn("Message is not from a GuildText channel. Ignoring.");
+      return;
+    }
 
-		// Checks if the bot is mentioned in the message all alone and triggers onMention trigger.
-		// You can change the behavior as per your liking at ./messages/onMention.js
+    // Declares const to be used
+    const { client, channel, content, author } = message;
 
-		if (
-			message.content == `<@${client.user.id}>` ||
-			message.content == `<@!${client.user.id}>`
-		) {
-			require("../messages/onMention").execute(message);
-			return;
-		}
+    // Debug logs to verify incoming message data
+    console.log("Message received:", {
+      content: content,
+      author: author.tag,
+      channelId: channel.id,
+      expectedChannelId: suggestionsChannelId,
+    });
 
-		/**
-		 * @description Converts prefix to lowercase.
-		 * @type {String}
-		 */
+    // Suggestions feature
+    if (channel.id === suggestionsChannelId) {
+      console.log("Suggestions feature triggered. Channel ID matches.");
 
-		const checkPrefix = prefix.toLowerCase();
+      try {
+        // Create an embed for the suggestion
+        const embed = new EmbedBuilder()
+          .setColor("#FFFFFF") // White for the embed
+          .setAuthor({ name: `Suggested by ${author.tag}`, iconURL: author.displayAvatarURL() })
+          .setDescription(content)
+          .setFooter({ text: "Please wait for a decision" });
 
-		/**
-		 * @description Regex expression for mention prefix
-		 */
+        // Create buttons for admin actions
+        const approveButton = new ButtonBuilder()
+          .setCustomId("approve_suggestion")
+          .setLabel("Approved")
+          .setStyle(ButtonStyle.Success);
 
-		const prefixRegex = new RegExp(
-			`^(<@!?${client.user.id}>|${escapeRegex(checkPrefix)})\\s*`
-		);
+        const denyButton = new ButtonBuilder()
+          .setCustomId("deny_suggestion")
+          .setLabel("Denied")
+          .setStyle(ButtonStyle.Danger);
 
-		// Checks if message content in lower case starts with bot's mention.
+        const row = new ActionRowBuilder().addComponents(approveButton, denyButton);
 
-		if (!prefixRegex.test(content.toLowerCase())) return;
+        // Send a new embed and delete the user's original message
+        const sentMessage = await channel.send({ embeds: [embed], components: [row] });
+        console.log("Embed and buttons sent successfully.");
 
-		/**
-		 * @description Checks and returned matched prefix, either mention or prefix in config.
-		 */
+        // React to the sent embed
+        await sentMessage.react("✅");
+        await sentMessage.react("❌");
+        console.log("Reactions added to the message.");
 
-		const [matchedPrefix] = content.toLowerCase().match(prefixRegex);
+        // Create a thread for the suggestion
+        const thread = await sentMessage.startThread({
+          name: `Discussion: ${author.username}'s Suggestion`,
+          autoArchiveDuration: 1440, // 1 day auto-archive duration
+          reason: "Created for discussion on the suggestion.",
+        });
+        console.log(`Thread created successfully: ${thread.name}`);
 
-		/**
-		 * @type {String[]}
-		 * @description The Message Content of the received message seperated by spaces (' ') in an array, this excludes prefix and command/alias itself.
-		 */
+        // Delete the original user message
+        await message.delete();
+        console.log("Original message deleted successfully.");
+      } catch (error) {
+        console.error("Error handling suggestion:", error);
+      }
 
-		const args = content.slice(matchedPrefix.length).trim().split(/ +/);
+      // Exit after handling the suggestion
+      return;
+    }
 
-		/**
-		 * @type {String}
-		 * @description Name of the command received from first argument of the args array.
-		 */
+    // Prefix logic for commands
+    const prefixRegex = new RegExp(
+      `^(<@!?${client.user.id}>|${escapeRegex(prefix)})\\s*`
+    );
 
-		const commandName = args.shift().toLowerCase();
+    if (!prefixRegex.test(content.toLowerCase())) return;
 
-		// Check if mesage does not starts with prefix, or message author is bot. If yes, return.
+    const [matchedPrefix] = content.toLowerCase().match(prefixRegex);
+    const args = content.slice(matchedPrefix.length).trim().split(/ +/);
+    const commandName = args.shift().toLowerCase();
 
-		if (!message.content.startsWith(matchedPrefix) || message.author.bot)
-			return;
+    // Command handling
+    const command =
+      client.commands.get(commandName) ||
+      client.commands.find(
+        (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
+      );
 
-		const command =
-			client.commands.get(commandName) ||
-			client.commands.find(
-				(cmd) => cmd.aliases && cmd.aliases.includes(commandName)
-			);
+    if (!command) return;
 
-		// It it's not a command, return :)
+    // Owner-only commands
+    if (command.ownerOnly && message.author.id !== owner) {
+      return message.reply({ content: "This is an owner-only command!" });
+    }
 
-		if (!command) return;
+    // Guild-only commands
+    if (command.guildOnly && message.channel.type === ChannelType.DM) {
+      return message.reply({
+        content: "I can't execute that command inside DMs!",
+      });
+    }
 
-		// Owner Only Property, add in your command properties if true.
+    // Check for permissions
+    if (command.permissions) {
+      const authorPerms = message.channel.permissionsFor(message.author);
+      if (!authorPerms || !authorPerms.has(command.permissions)) {
+        return message.reply({ content: "You cannot do this!" });
+      }
+    }
 
-		if (command.ownerOnly && message.author.id !== owner) {
-			return message.reply({ content: "This is a owner only command!" });
-		}
+    // Cooldowns
+    const { cooldowns } = client;
 
-		// Guild Only Property, add in your command properties if true.
+    if (!cooldowns.has(command.name)) {
+      cooldowns.set(command.name, new Collection());
+    }
 
-		if (command.guildOnly && message.channel.type === ChannelType.DM) {
-			return message.reply({
-				content: "I can't execute that command inside DMs!",
-			});
-		}
+    const now = Date.now();
+    const timestamps = cooldowns.get(command.name);
+    const cooldownAmount = (command.cooldown || 3) * 1000;
 
-		// Author perms property
-		// Will skip the permission check if command channel is a DM. Use guildOnly for possible error prone commands!
+    if (timestamps.has(message.author.id)) {
+      const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
-		if (command.permissions && message.channel.type !== ChannelType.DM) {
-			const authorPerms = message.channel.permissionsFor(message.author);
-			if (!authorPerms || !authorPerms.has(command.permissions)) {
-				return message.reply({ content: "You can not do this!" });
-			}
-		}
+      if (now < expirationTime) {
+        const timeLeft = (expirationTime - now) / 1000;
+        return message.reply({
+          content: `please wait ${timeLeft.toFixed(
+            1
+          )} more second(s) before reusing the \`${command.name}\` command.`,
+        });
+      }
+    }
 
-		// Args missing
+    timestamps.set(message.author.id, now);
+    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
-		if (command.args && !args.length) {
-			let reply = `You didn't provide any arguments, ${message.author}!`;
-
-			if (command.usage) {
-				reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-			}
-
-			return message.channel.send({ content: reply });
-		}
-
-		// Cooldowns
-
-		const { cooldowns } = client;
-
-		if (!cooldowns.has(command.name)) {
-			cooldowns.set(command.name, new Collection());
-		}
-
-		const now = Date.now();
-		const timestamps = cooldowns.get(command.name);
-		const cooldownAmount = (command.cooldown || 3) * 1000;
-
-		if (timestamps.has(message.author.id)) {
-			const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-
-			if (now < expirationTime) {
-				const timeLeft = (expirationTime - now) / 1000;
-				return message.reply({
-					content: `please wait ${timeLeft.toFixed(
-						1
-					)} more second(s) before reusing the \`${command.name}\` command.`,
-				});
-			}
-		}
-
-		timestamps.set(message.author.id, now);
-		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-
-		// Rest of your creativity is below.
-
-		// execute the final command. Put everything above this.
-		try {
-			command.execute(message, args);
-		} catch (error) {
-			console.error(error);
-			message.reply({
-				content: "There was an error trying to execute that command!",
-			});
-		}
-	},
+    // Try executing the command
+    try {
+      command.execute(message, args);
+    } catch (error) {
+      console.error(error);
+      message.reply({
+        content: "There was an error trying to execute that command!",
+      });
+    }
+  },
 };

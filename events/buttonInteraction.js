@@ -1,37 +1,76 @@
-const { Events } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-	name: Events.InteractionCreate,
+  name: "interactionCreate",
 
-	// Executes when an interaction is created and handles it.
-	 
-	async execute(interaction) {
-		// Deconstructed client from interaction object.
-		const { client } = interaction;
+  async execute(interaction) {
+    if (!interaction.isButton()) return;
 
-		// Checks if the interaction is a button interaction (to prevent weird bugs)
-		
-		if (!interaction.isButton()) return;
+    const { customId, message } = interaction;
 
-		const command = client.buttonCommands.get(interaction.customId);
+    try {
+      if (customId === "approve_suggestion") {
+        console.log("Approve button pressed!");
 
-		// If the interaction is not a command in cache, return error message.
-		// You can modify the error message at ./messages/defaultButtonError.js file!
+        // Recreate the original embed and update it
+        const originalEmbed = message.embeds[0];
+        const updatedEmbed = EmbedBuilder.from(originalEmbed)
+          .setColor("#00FF00") // Valid hexadecimal color for green
+          .setFooter({ text: "Status: Approved" })
+          .setDescription(`${originalEmbed.description}\n\n✅ **This suggestion has been approved.**`);
 
-		if (!command) {
-			return await require("../messages/defaultButtonError").execute(interaction);
-		}
+        // Update the message with the modified embed and disable buttons
+        await message.edit({
+          embeds: [updatedEmbed],
+          components: [], // Disable the buttons
+        });
 
-		// A try to execute the interaction.
+        // Respond to the user who clicked the button
+        await interaction.reply({
+          content: "You approved this suggestion!",
+          ephemeral: true,
+        });
 
-		try {
-			return await command.execute(interaction);
-		} catch (err) {
-			console.error(err);
-			await interaction.reply({
-				content: "There was an issue while executing that button!",
-				ephemeral: true,
-			});
-		}
-	},
+        console.log("Suggestion approved and buttons disabled.");
+      } else if (customId === "deny_suggestion") {
+        console.log("Deny button pressed!");
+
+        // Recreate the original embed and update it
+        const originalEmbed = message.embeds[0];
+        const updatedEmbed = EmbedBuilder.from(originalEmbed)
+          .setColor("#FF0000") // Valid hexadecimal color for red
+          .setFooter({ text: "Status: Denied" })
+          .setDescription(`${originalEmbed.description}\n\n❌ **This suggestion has been denied.**`);
+
+        // Update the message with the modified embed and disable buttons
+        await message.edit({
+          embeds: [updatedEmbed],
+          components: [], // Disable the buttons
+        });
+
+        // Respond to the user who clicked the button
+        await interaction.reply({
+          content: "You denied this suggestion!",
+          ephemeral: true,
+        });
+
+        console.log("Suggestion denied and buttons disabled.");
+      }
+
+      // Close the thread tied to the embed if it exists
+      if (message.thread) {
+        console.log("Attempting to close the thread...");
+        await message.thread.setArchived(true); // Archive the thread
+        console.log("Thread closed successfully.");
+      }
+    } catch (error) {
+      console.error("Error handling button interaction:", error);
+
+      // Handle errors gracefully
+      await interaction.reply({
+        content: "There was an error handling this button interaction.",
+        ephemeral: true,
+      });
+    }
+  },
 };
