@@ -43,13 +43,21 @@ module.exports = {
 
       // Set a timeout to remove the inmate role after the specified duration
       setTimeout(async () => {
-        // Reapply original roles
-        await member.roles.add(originalRoles);
+        try {
+          // Reapply original roles
+          await member.roles.add(originalRoles);
 
-        // Remove inmate role
-        await member.roles.remove(inmateRole);
+          // Remove inmate role
+          await member.roles.remove(inmateRole);
 
-        interaction.followUp(`Released ${user.tag} from jail after ${duration} minutes.`);
+          // Send a new message to the same channel after the timeout
+          const channel = interaction.channel;
+          channel.send(`Released ${user.tag} from jail after ${duration} minutes.`);
+        } catch (error) {
+          console.error(error);
+          const logChannel = interaction.guild.channels.cache.find(c => c.name === 'log-channel');
+          if (logChannel) logChannel.send(`Failed to release ${user.tag} after ${duration} minutes.`);
+        }
       }, duration * 60000);
     } catch (error) {
       console.error(error);
