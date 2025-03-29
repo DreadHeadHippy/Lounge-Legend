@@ -57,14 +57,14 @@ module.exports = {
         console.log("Suggestion denied and buttons disabled.");
       }
 
-      // Close the thread tied to the embed if it exists
-      if (message.thread) {
-        console.log("Attempting to close the thread...");
-        await message.thread.setArchived(true); // Archive the thread
-        console.log("Thread closed successfully.");
-      }
-    } catch (error) {
-      console.error("Error handling button interaction:", error);
+      // Lock the thread tied to the embed if it exists
+        if (message.thread) {
+          console.log("Attempting to lock the thread...");
+          await message.thread.setLocked(true); // Lock the thread
+          console.log("Thread locked successfully.");
+        }
+      } catch (error) {
+        console.error("Error handling button interaction:", error);
 
       // Handle errors gracefully
       await interaction.reply({
